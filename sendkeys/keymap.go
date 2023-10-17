@@ -2,6 +2,7 @@ package sendkeys
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -22,6 +23,7 @@ func (kb *KBWrap) handleRunes(split []string) (keys []int) {
 		case symok:
 			keys = append(keys, sym)
 		default:
+			fmt.Println("Key mapping not found ->", c, "<-")
 			kb.errors = append(
 				kb.errors,
 				errors.New(ErrKeyMappingNotFound.Error()+c),
@@ -66,5 +68,5 @@ var Symbol = map[string]int{
 	"<": -51, ".": 52, ">": -52, "/": 53, "?": -53,
 	" ": 57, "!": -2, "@": -3, "#": -4, "$": -5,
 	"%": -6, "^": -7, "&": -8, "*": -9, "(": -10,
-	")": -11, ";": 39, ":": -39, "\t": 15,
+	")": -11, ";": 39, ":": -39, "\t": 15, "\n": 28,
 }
