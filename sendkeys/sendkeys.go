@@ -107,7 +107,7 @@ func (kb *KBWrap) Type(s string) error {
 }
 
 func SendStrings(text []string, delay time.Duration) error {
-	k, err := NewKBWrapWithOptions(delay, Noisy)
+	k, err := NewKBWrapWithOptions(delay, Noisy, Stubborn)
 	if err != nil {
 		return err
 	}
