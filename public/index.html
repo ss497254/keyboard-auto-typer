@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keyboard auto typer</title>
+    <style>
+      #form {
+        max-width: 1080px;
+        margin-inline: auto;
+        padding: 100px;
+      }
+
+      #form > textarea {
+        min-height: 500px;
+      }
+      #form > * {
+        width: 100%;
+        margin-bottom: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="form">
+      <input
+        name="start_after"
+        type="number"
+        value="3000"
+        placeholder="start_after"
+      />
+      <input name="delay" type="number" value="10" placeholder="delay" />
+      <textarea name="text" placeholder="text"></textarea>
+      <button>Submit</button>
+    </form>
+    <script>
+      const form = document.getElementById("form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        const startAfter = parseInt(
+          form.elements.namedItem("start_after").value
+        );
+        const delay = parseInt(form.elements.namedItem("delay").value);
+        const text = form.elements.namedItem("text").value.split("\n");
+        console.log("submit", { delay, startAfter, text });
+
+        fetch("/send", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ startAfter, delay, text }),
+        }).catch(alert);
+      });
+    </script>
+  </body>
+</html>
