@@ -3,19 +3,22 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
+	"github.com/ss497254/keyboard-auto-typer/public"
 	"github.com/ss497254/keyboard-auto-typer/sendkeys"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/filesystem"
 )
 
 func parseArgs() map[string]string {
 	args := map[string]string{
 		"port": "51212",
-		"host": "localhost",
+		"host": "0.0.0.0",
 	}
 
 	for i, arg := range os.Args {
@@ -44,6 +47,10 @@ func main() {
 			"message": "Hi",
 		})
 	})
+
+	app.Use("/dashboard", filesystem.New(filesystem.Config{
+		Root: http.FS(public.WebsiteSource),
+	}))
 
 	app.Post("/send", func(c *fiber.Ctx) error {
 		type Data struct {
