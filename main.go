@@ -38,7 +38,7 @@ func main() {
 	serverAddress := fmt.Sprintf("%s:%s", args["host"], args["port"])
 
 	app := fiber.New(fiber.Config{
-		AppName: "super-duper",
+		AppName: "send-keys-server",
 	})
 
 	app.Get("/", func(c *fiber.Ctx) error {
