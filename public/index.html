@@ -5,23 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Keyboard auto typer</title>
     <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+      }
+
       #form {
-        max-width: 1080px;
+        height: calc(100% - 40px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
         margin-inline: auto;
-        padding: 100px;
+        padding-inline: 20px;
+      }
+
+      #form > h1 {
+        text-align: center;
       }
 
       #form > textarea {
-        min-height: 500px;
+        flex-grow: 1;
       }
+
+      #form > button {
+        color: white;
+        background-color: #2563eb;
+        border: none;
+      }
+
       #form > * {
-        width: 100%;
-        margin-bottom: 40px;
+        max-width: 720px;
+        width: 90%;
+        font-size: 18px;
+        padding: 10px 14px;
       }
     </style>
   </head>
   <body>
     <form id="form">
+      <h1>Keyboard auto typer</h1>
       <input
         name="start_after"
         type="number"
@@ -34,7 +58,8 @@
     </form>
     <script>
       const form = document.getElementById("form");
-      form.addEventListener("submit", (e) => {
+
+      function listner(e) {
         e.preventDefault();
         const form = e.currentTarget;
         const startAfter = parseInt(
@@ -42,7 +67,9 @@
         );
         const delay = parseInt(form.elements.namedItem("delay").value);
         const text = form.elements.namedItem("text").value.split("\n");
+
         console.log("submit", { delay, startAfter, text });
+        alert("send");
 
         fetch("/send", {
           method: "POST",
@@ -50,8 +77,12 @@
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ startAfter, delay, text }),
-        }).catch(alert);
-      });
+        })
+          .catch(alert)
+          .then(() => alert("sent!"));
+      }
+
+      form.addEventListener("submit", listner);
     </script>
   </body>
 </html>
